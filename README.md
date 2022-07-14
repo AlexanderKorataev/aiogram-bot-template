@@ -16,8 +16,8 @@
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" />
   </a>
   
-  <a href="https://www.python.org/downloads/release/python-3101">
-    <img src="https://img.shields.io/badge/python-v3.10.1-green.svg" alt="Python: v3.10.1" />
+  <a href="https://www.python.org/downloads/release/python-3105">
+    <img src="https://img.shields.io/badge/python-v3.10.5-green.svg" alt="Python: v3.10.5" />
   </a>
   
   <a href="https://t.me/aiogram_bot_template_bot">
@@ -72,3 +72,12 @@
    ```
   
 3. **Create your Github repository and connect it to Heroku in the Deploy section.**
+
+## File system 📁
+
+| folder       | purpose                                                                          |
+| ------------ | -------------------------------------------------------------------------------- |
+| handlers     | handlers of commands and messages sent to the telegram bot                       |
+| keyboards    | bot keyboards                                                                    |
+| plugins      | plugins for adding functionality to the bot                                      |
+| settings     | project settings                                                                 |
