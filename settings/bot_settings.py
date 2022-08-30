@@ -2,8 +2,7 @@
 import os
 
 # Getting a token for api telegrams from an environment variable
-# TOKEN = os.getenv('TOKEN')
-TOKEN = '5408763692:AAEtPK-CXZtmvliE6-cpviepnr3FnW3HJlw'
+TOKEN = os.getenv('TOKEN')
 
 # Сhecking for the existence of a variable
 if not TOKEN:
