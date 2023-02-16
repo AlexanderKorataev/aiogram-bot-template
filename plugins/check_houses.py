@@ -1,6 +1,6 @@
 import asyncio
 
-from loader import bot
+from main import bot
 from messages import MESSAGES
 from home_parser import MyHomeParser
 

@@ -1,7 +1,12 @@
 """Сommon handlers and registration"""
 from aiogram import types
 from aiogram.dispatcher import Dispatcher
-
+import os
+from messages import MESSAGES
+from keyboards import set_link_keyboard, update_link_keyboard
+from main import dp
+from states import Form
+from aiogram.dispatcher import FSMContext
 
 class CommonHandlers:
     """Сommon handlers"""
@@ -13,9 +18,21 @@ class CommonHandlers:
         Args:
             message (types.Message): Instance of the Message class.
         """
-
-        await message.answer(
-            'Let\'s get started!🔥'
+        await dp.bot.send_message(
+                message.chat.id,
+                MESSAGES['start'].format(message.from_user.username),
+                reply_markup=set_link_keyboard
+            )
+            # Add the user ID to the environment variable
+        if(not os.environ.get('USER_IDS')):
+            user_ids = []
+        else:
+            user_ids = os.environ.get('USER_IDS').split(',')
+        if str(message.chat.id) not in user_ids:
+            user_ids.append(str(message.chat.id))
+            os.environ['USER_IDS'] = ','.join(user_ids)
+            await message.answer(
+        'Let\'s get started!🔥'
         )
 
     async def help_command(message: types.Message) -> None: 
@@ -29,17 +46,39 @@ class CommonHandlers:
         await message.answer(
             'We\'ll be there soon🆘'
             )
-
-    async def unknown(message: types.Message) -> None:
+        
+    async def cancel_command(message: types.Message, state: FSMContext) -> None: 
         """
-        Handler for unknown commands or messages
+        Handler of the /help command
 
         Args:
             message (types.Message): Instance of the Message class.
         """
+        current_state = await state.get_state()
+        if current_state is None:
+            return
+        else:
+            await state.finish()
+            await message.answer(
+                MESSAGES['cancel']
+            )
 
+    async def set_link(message: types.Message) -> None:
+
+        await Form.url.set()
         await message.answer(
-            'I do not know what to do with this 😬 I will just remind you that there is a command /help'
+                MESSAGES['set_link']
+        )
+
+
+    async def unknown(message: types.Message, state: FSMContext) -> None:
+        async with state.proxy() as data:
+            data['url'] = message.text
+        # Save the URL to an environment variable
+        os.environ['URL'] = data['url']
+        await state.finish()
+        await message.answer(
+            MESSAGES['link_updated']
             )
 
 def register_client_handlers(dp: Dispatcher) -> None:
@@ -51,5 +90,5 @@ def register_client_handlers(dp: Dispatcher) -> None:
     """
     dp.register_message_handler(CommonHandlers.start_command, commands=['start'])
     dp.register_message_handler(CommonHandlers.help_command, commands=['help'])
-
+    dp.register_message_handler(CommonHandlers.cancel_command, commands=['cancel'])
     dp.register_message_handler(CommonHandlers.unknown)
