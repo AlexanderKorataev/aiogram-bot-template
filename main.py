@@ -1,5 +1,6 @@
 """Webwook entry point"""
 import logging
+import asyncio
 
 from settings.bot_settings import TOKEN
 from settings.webhook_settings import (WEBHOOK_URL, WEBHOOK_PATH, WEBAPP_HOST, WEBAPP_PORT)
@@ -10,6 +11,7 @@ from handlers import common
 from aiogram import Bot
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils.executor import start_webhook
+from plugins import check_new_houses
 
 
 logger = logging.getLogger(__name__)
@@ -25,7 +27,8 @@ async def set_commands(bot: Bot):
 
 async def on_startup(dispatcher) -> None:
     await bot.set_webhook(WEBHOOK_URL, drop_pending_updates=True)
-
+    loop = asyncio.get_event_loop()
+    loop.create_task(check_new_houses(60))
 
 async def on_shutdown(dispatcher) -> None:
     await bot.delete_webhook()
@@ -43,7 +46,7 @@ def main() -> None:
 
     # Installing bot commands
     set_commands(bot)
-
+    
     # Webhook start
     start_webhook(
         dispatcher=dp,
