@@ -11,14 +11,15 @@ from aiogram.dispatcher import Dispatcher
 class CommonHandlers:
     """Сommon handlers"""
 
-    async def start_command(message: types.Message, dp: Dispatcher) -> None:
+    async def start_command(message: types.Message) -> None:
         """
         Handler of the /start command
 
         Args:
             message (types.Message): Instance of the Message class.
         """
-        await dp.bot.send_message(
+        
+        await message.bot.send_message(
                 message.chat.id,
                 MESSAGES['start'].format(message.from_user.username),
                 reply_markup=set_link_keyboard
