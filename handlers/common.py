@@ -88,7 +88,7 @@ def register_client_handlers(dp: Dispatcher) -> None:
     Args:
         dp (Dispatcher): Instance of the Dispatcher class.
     """
-    dp.register_message_handler(CommonHandlers.start_command, commands=['start'])
+    dp.register_message_handler(CommonHandlers.start_command, commands=['start'], dp=dp)
     dp.register_message_handler(CommonHandlers.help_command, commands=['help'])
     dp.register_message_handler(CommonHandlers.cancel_command, commands=['cancel'])
     dp.register_message_handler(CommonHandlers.unknown)
