@@ -1,15 +1,14 @@
 import asyncio
 
-from main import bot
 from messages import MESSAGES
 from home_parser import MyHomeParser
-
+from aiogram.dispatcher import Dispatcher
 import os
 import logging
 
 logging.basicConfig(level=logging.INFO)
 
-async def check_new_houses(sleep_time: int):
+async def check_new_houses(dp:Dispatcher, sleep_time: int):
     while True:
         await asyncio.sleep(sleep_time)
         url = os.environ.get('URL')
@@ -35,6 +34,6 @@ async def check_new_houses(sleep_time: int):
         logging.info('user_ids = ', user_ids)
         for user_id in user_ids:
             try:
-                await bot.send_message(user_id, msg)
+                await dp.bot.send_message(user_id, msg)
             except Exception as e:
                 print(e)

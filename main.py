@@ -28,7 +28,7 @@ async def set_commands(bot: Bot):
 async def on_startup(dispatcher) -> None:
     await bot.set_webhook(WEBHOOK_URL, drop_pending_updates=True)
     loop = asyncio.get_event_loop()
-    loop.create_task(check_new_houses(60))
+    loop.create_task(check_new_houses(dp, 60))
 
 async def on_shutdown(dispatcher) -> None:
     await bot.delete_webhook()

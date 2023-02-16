@@ -4,14 +4,14 @@ from aiogram.dispatcher import Dispatcher
 import os
 from messages import MESSAGES
 from keyboards import set_link_keyboard, update_link_keyboard
-from main import dp
 from states import Form
 from aiogram.dispatcher import FSMContext
+from aiogram.dispatcher import Dispatcher
 
 class CommonHandlers:
     """Сommon handlers"""
 
-    async def start_command(message: types.Message) -> None:
+    async def start_command(message: types.Message, dp: Dispatcher) -> None:
         """
         Handler of the /start command
 
