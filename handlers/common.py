@@ -91,5 +91,6 @@ def register_client_handlers(dp: Dispatcher) -> None:
     """
     dp.register_message_handler(CommonHandlers.start_command, commands=['start'])
     dp.register_message_handler(CommonHandlers.help_command, commands=['help'])
+    dp.register_message_handler(CommonHandlers.set_link, commands=['set_link'])
     dp.register_message_handler(CommonHandlers.cancel_command, commands=['cancel'])
     dp.register_message_handler(CommonHandlers.unknown)
