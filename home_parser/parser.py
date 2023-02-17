@@ -15,7 +15,8 @@ class MyHomeParser:
         self.soup = BeautifulSoup(self.request.text, 'lxml')
         self.cards = []
         self.homes_url = []
-        self.homes_images = []
+        self.description = {'image_url':[], 'title':[], 'price':[]}
+
         self.old_url = os.environ.get('HOMES_URL', '').split(',')
 
     def get_cards(self):
@@ -27,7 +28,10 @@ class MyHomeParser:
             card_href = card.find('a').get('href')[:37]
             if card_href not in self.old_url:
                 self.homes_url.append(card_href)
-                image_url = card.find('img', class_='card-img')['data-src']
+                self.description['image_url'].append(card.find('img', class_='card-img')['data-src'])
+                self.description['title'].append(card.find('h5', class_='card-title').text)
+                self.description['price'].append(card.find('b', {'class': 'item-price-usd'}).text)
+
                 logging.info(f'{card = }')
 
                 self.homes_images.append(image_url)
