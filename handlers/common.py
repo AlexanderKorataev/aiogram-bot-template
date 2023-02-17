@@ -1,12 +1,14 @@
 """Сommon handlers and registration"""
+import os
+
 from aiogram import types
 from aiogram.dispatcher import Dispatcher
-import os
-from messages import MESSAGES
-from keyboards import set_link_keyboard, update_link_keyboard
-from states import Form
 from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher import Dispatcher
+
+from keyboards import set_link_keyboard
+from messages import MESSAGES
+from states import Form
+
 
 class CommonHandlers:
     """Сommon handlers"""

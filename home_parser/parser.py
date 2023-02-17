@@ -1,9 +1,11 @@
+import logging
 import os
+
 import requests
 from bs4 import BeautifulSoup
-import logging
 
-logging.basicConfig(level=logging.INFO)
+from settings.debug_settings import LOGGING_LEVEL
+logging.basicConfig(level=LOGGING_LEVEL)
 
 class MyHomeParser:
     _headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
@@ -32,7 +34,7 @@ class MyHomeParser:
                 self.description['title'].append(card.find('h5', class_='card-title').text)
                 self.description['price'].append(card.find('b', {'class': 'item-price-usd'}).text)
 
-                logging.info(f'{card = }')
+                LOGGING_LEVEL(f'{card = }')
 
 
     def save_to_env(self):

@@ -25,8 +25,9 @@ async def set_commands(bot: Bot):
 
 async def main() -> None:
     # Setting up logging
+    from settings.debug_settings import LOGGING_LEVEL
     logging.basicConfig(
-        level=logging.INFO,
+        level=LOGGING_LEVEL,
         format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
     )
 
