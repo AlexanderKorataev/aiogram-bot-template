@@ -32,11 +32,11 @@ async def check_new_houses(dp:Dispatcher, sleep_time: int):
         else:
             continue
         for i, url in enumerate(p.homes_url):
-            msg = f"[{p.description['title'][i]}]({url}) - ${p.description['price'][i]}"
+            msg = f"[**{p.description['title'][i]}**]({url}) - ${p.description['price'][i]}"
            
             
             
-            image_url = p.homes_images[i]
+            image_url = p.description['image_url'][i]
             # Download the image and sendz it
             response = requests.get(image_url)
             image_bytes = BytesIO(response.content)
