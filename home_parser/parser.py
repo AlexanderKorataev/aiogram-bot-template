@@ -26,6 +26,7 @@ class MyHomeParser:
                 self.homes_url.append(card_href)
 
     def save_to_env(self):
+        self.homes_url.extend(self.old_url)
         os.environ['HOMES_URL'] = ','.join(self.homes_url)
 
     def __del__(self):
