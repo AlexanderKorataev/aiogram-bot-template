@@ -34,7 +34,6 @@ class MyHomeParser:
 
                 logging.info(f'{card = }')
 
-                self.homes_images.append(image_url)
 
     def save_to_env(self):
         os.environ['HOMES_URL'] = ','.join(self.homes_url)
