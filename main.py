@@ -1,6 +1,7 @@
 """Webwook entry point"""
 import logging
 import asyncio
+import os
 
 from settings.bot_settings import TOKEN
 from settings.webhook_settings import (WEBHOOK_URL, WEBHOOK_PATH, WEBAPP_HOST, WEBAPP_PORT)
@@ -28,7 +29,7 @@ async def set_commands(bot: Bot):
 async def on_startup(dispatcher) -> None:
     await bot.set_webhook(WEBHOOK_URL, drop_pending_updates=True)
     loop = asyncio.get_event_loop()
-    loop.create_task(check_new_houses(dp, 60))
+    loop.create_task(check_new_houses(dp, os.getenv('TIMEOUT')))
 
 async def on_shutdown(dispatcher) -> None:
     await bot.delete_webhook()
