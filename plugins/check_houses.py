@@ -22,13 +22,11 @@ async def check_new_houses(dp:Dispatcher, sleep_time: int):
             continue
         p.get_cards()
         p.get_homes_url()
-        if len(p.homes_url):
-            p.save_to_env()
-        else:
+        if len(p.homes_url) == 0:
             continue
         urls_str = '\n'.join(p.homes_url)
         msg = f"{MESSAGES['house_is_found']}\n\n{urls_str}"
-
+        p.save_to_env()
         user_ids = os.environ.get('USER_IDS', '').split(',')
         # logging.info('user_ids = ', user_ids)
         logging.info(f'{user_ids = }')
