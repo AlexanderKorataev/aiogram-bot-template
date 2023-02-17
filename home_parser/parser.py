@@ -25,7 +25,7 @@ class MyHomeParser:
             card_href = card.find('a').get('href')[:37]
             if card_href not in self.old_url:
                 self.homes_url.append(card_href)
-                image_url = card.select('card-img')[0].find('img').get('src')
+                image_url = card.find('img').get('src')
                 self.homes_images.append(image_url)
 
     def save_to_env(self):
