@@ -22,7 +22,7 @@ async def check_new_houses(dp:Dispatcher, sleep_time: int):
             continue
         p.get_cards()
         p.get_homes_url()
-        if p.homes_url:
+        if len(p.homes_url):
             p.save_to_env()
         else:
             continue
