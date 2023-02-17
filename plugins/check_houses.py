@@ -34,7 +34,7 @@ async def check_new_houses(dp:Dispatcher, sleep_time: int):
         for i, url in enumerate(p.homes_url):
             msg = f"{MESSAGES['house_is_found']}\n\n"
             image_url = p.homes_images[i]
-            # Download the image and send it
+            # Download the image and sendz it
             response = requests.get(image_url)
             image_bytes = BytesIO(response.content)
             user_ids = os.environ.get('USER_IDS', '').split(',')
@@ -42,7 +42,7 @@ async def check_new_houses(dp:Dispatcher, sleep_time: int):
             logging.info(f'{user_ids = }')
             for user_id in user_ids:
                 try:
-                    await dp.bot.send_photo(user_id, photo=image_bytes, caption=msg)
+                    await dp.bot.send_photo(user_id, photo=image_bytes, caption=url)
                 except Exception as e:
                     print(e)
                 

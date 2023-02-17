@@ -1,7 +1,9 @@
 import os
 import requests
 from bs4 import BeautifulSoup
+import logging
 
+logging.basicConfig(level=logging.INFO)
 
 class MyHomeParser:
     _headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
@@ -26,6 +28,8 @@ class MyHomeParser:
             if card_href not in self.old_url:
                 self.homes_url.append(card_href)
                 image_url = card.find('img').get('src')
+                logging.info(f'{image_url = }')
+
                 self.homes_images.append(image_url)
 
     def save_to_env(self):
