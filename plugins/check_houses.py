@@ -5,6 +5,8 @@ from home_parser import MyHomeParser
 from aiogram.dispatcher import Dispatcher
 import os
 import logging
+from io import BytesIO
+import requests
 
 logging.basicConfig(level=logging.INFO)
 
@@ -21,17 +23,15 @@ async def check_new_houses(dp:Dispatcher, sleep_time: int):
             print(f'Oh shit... We have a problem, status code: {p.status}')
             continue
         p.get_cards()
-        p.get_homes_url()
-        if len(p.homes_url) == 0:
+        p.get_homes_url_and_images()
+        if len(p.homes_url):
+            p.save_to_env()
+        else:
             continue
-        urls_str = '\n'.join(p.homes_url)
-        msg = f"{MESSAGES['house_is_found']}\n\n{urls_str}"
-        p.save_to_env()
-        user_ids = os.environ.get('USER_IDS', '').split(',')
-        # logging.info('user_ids = ', user_ids)
-        logging.info(f'{user_ids = }')
-        for user_id in user_ids:
-            try:
-                await dp.bot.send_message(user_id, msg)
-            except Exception as e:
-                print(e)
+        for i, url in enumerate(p.homes_url):
+            msg = f"{MESSAGES['house_is_found']}\n\n"
+            image_url = p.homes_images[i]
+            # Download the image and send it
+            response = requests.get(image_url)
+            image_bytes = BytesIO(response.content)
+            await dp.bot.send_photo(os.environ['USER_ID'], photo=image_bytes, caption=msg)
