@@ -5,6 +5,9 @@ from home_parser import MyHomeParser
 from aiogram.dispatcher import Dispatcher
 import os
 import logging
+
+logging.basicConfig(level=logging.INFO)
+
 from io import BytesIO
 import requests
 
@@ -34,4 +37,13 @@ async def check_new_houses(dp:Dispatcher, sleep_time: int):
             # Download the image and send it
             response = requests.get(image_url)
             image_bytes = BytesIO(response.content)
-            await dp.bot.send_photo(os.environ['USER_ID'], photo=image_bytes, caption=msg)
+            user_ids = os.environ.get('USER_IDS', '').split(',')
+            # logging.info('user_ids = ', user_ids)
+            logging.info(f'{user_ids = }')
+            for user_id in user_ids:
+                try:
+                    await dp.bot.send_photo(user_id, photo=image_bytes, caption=msg)
+                except Exception as e:
+                    print(e)
+                
+
