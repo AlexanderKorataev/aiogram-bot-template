@@ -27,7 +27,7 @@ class MyHomeParser:
             card_href = card.find('a').get('href')[:37]
             if card_href not in self.old_url:
                 self.homes_url.append(card_href)
-                image_url = card.find('img', class_='swiper-lazy')['src']
+                image_url = card.find('img', class_='card-img')['data-src']
                 logging.info(f'{card = }')
 
                 self.homes_images.append(image_url)
