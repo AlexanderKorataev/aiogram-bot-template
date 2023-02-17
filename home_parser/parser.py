@@ -13,18 +13,16 @@ class MyHomeParser:
         self.soup = BeautifulSoup(self.request.text, 'lxml')
         self.cards = []
         self.homes_url = []
-
-        self.homes_url = os.environ.get('HOMES_URL', '').split(',')
+        self.old_url = os.environ.get('HOMES_URL', '').split(',')
 
     def get_cards(self):
         all_cards = self.soup.select('div[class="statement-card"]')
         self.cards.extend(all_cards)
 
     def get_homes_url(self):
-        old_urls = self.homes_url
         for card in self.cards:
             card_href = card.find('a').get('href')[:37]
-            if card_href not in old_urls:
+            if card_href not in self.old_url:
                 self.homes_url.append(card_href)
 
     def save_to_env(self):
