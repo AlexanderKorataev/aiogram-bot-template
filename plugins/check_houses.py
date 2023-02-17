@@ -21,9 +21,8 @@ async def check_new_houses(dp:Dispatcher, sleep_time: int):
             print(f'Oh shit... We have a problem, status code: {p.status}')
             continue
         p.get_cards()
-        p.get_homes_id()
         p.get_homes_url()
-        if p.homes_url and p.homes_id:
+        if p.homes_url:
             p.save_to_env()
         else:
             continue
@@ -31,7 +30,8 @@ async def check_new_houses(dp:Dispatcher, sleep_time: int):
         msg = f"{MESSAGES['house_is_found']}\n\n{urls_str}"
 
         user_ids = os.environ.get('USER_IDS', '').split(',')
-        logging.info('user_ids = ', user_ids)
+        # logging.info('user_ids = ', user_ids)
+        logging.info(f'{user_ids = }')
         for user_id in user_ids:
             try:
                 await dp.bot.send_message(user_id, msg)
